@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  nest:
+  back:
     build:
       dockerfile: './nest.Dockerfile'
     stdin_open: true
@@ -9,7 +9,21 @@ services:
       - '10022:22'
       - '13000:3000'
     volumes:
-      - './app:/app'
+      - './back:/back'
+
+  front:
+    build:
+      dockerfile: './nuxt.Dockerfile'
+    stdin_open: true
+    tty: true
+    ports:
+      - '11080:80'
+      - '11022:22'
+      - '3000:3001'
+    volumes:
+      - './front:/front'
+      - './default:/etc/nginx/sites-available/default'
+
   db:
     build:
       dockerfile: './db.Dockerfile'
